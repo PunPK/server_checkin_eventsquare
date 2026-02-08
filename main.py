@@ -2,15 +2,15 @@ from flask import Flask, render_template, jsonify, request
 import requests
 import logging
 from asgiref.wsgi import WsgiToAsgi
-from datetime import datetime, timezone
-
 
 app = Flask(__name__)
 asgi_app = WsgiToAsgi(app)
 
-MAIN_API = "http://10.148.0.2:9000"
+MAIN_API = "http://0.0.0.0:9000"
 
 EVENT_LOGS = {}
+LAST_TICKET_RESULT = {}
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -57,20 +57,11 @@ def event_check_in(event_id):
 
     app.logger.info(f"[EVENT] response: {result}")
     app_event_logs(event_id,f"[EVENT] response: {result}")
-
-    checkin_time = datetime.now(timezone.utc).isoformat()
-
-    summary = {
-        "checkin_time": checkin_time,
-        "ticket_type": result["ticket_types"][0]["name"],
-        "ticket_id": result["ticket_types"][0]["ticket_id"],
-    }
-
+    
     return render_template(
         "event.html",
-        summary=summary,
-        raw=result,
         event_id=event_id,
+        event=result
     )
 
 
@@ -79,13 +70,26 @@ def ticket_check_in(ticket_id):
     app_event_logs(ticket_id,f"[TICKET] check-in request: {ticket_id}")
 
     result = send_ticket_to_server(ticket_id)
-
+    print(result)
     if result.get("status") == "error":
         app.logger.info(f"[TICKET] failed: {result}")
         app_event_logs(ticket_id,f"[TICKET] failed: {result}")
+    
     else:
         app.logger.info(f"[TICKET] success: {result}")
         app_event_logs(ticket_id,f"[TICKET] success: {result}")
+    
+    LAST_TICKET_RESULT[ticket_id] = {
+        "ticket_id": ticket_id,
+        "ticket_name": result.get("ticket_name"),
+        "ticket_type": result.get("ticket_type"),
+        "event_name": result.get("event", {}).get("name"),
+        "location": result.get("location"),
+        "user_id": result.get("id"),
+        "status": status,
+        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "raw": result
+    }
 
     return jsonify(result)
 
@@ -95,3 +99,7 @@ def app_event_logs(event_id, message):
 @app.route("/events/logs/<event_id>")
 def get_event_logs(event_id):
     return jsonify(EVENT_LOGS.get(event_id, []))
+
+@app.route("/tickets/summary/<ticket_id>")
+def ticket_summary(ticket_id):
+    return jsonify(LAST_TICKET_RESULT.get(ticket_id, {}))
