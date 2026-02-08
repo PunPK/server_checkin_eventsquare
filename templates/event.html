@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Monitor</title>
+
+    <!-- CSS เฉพาะหน้านี้ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/event.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>📋 EventSquare – Check-in Monitor</h1>
+    </header>
+
+    <!-- Event Info -->
+    <section class="card">
+        <div class="event-info">
+            <div>
+                <span class="label">Event name</span>
+                <span class="value">{{ event.event_name }}</span>
+            </div>
+            <div>
+                <span class="label">Event ID</span>
+                <span class="value mono">{{ event_id }}</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Log -->
+    <section class="card log-card">
+        <h3>🕒 Log เหตุการณ์</h3>
+        <ul id="logList" class="log-list">
+            <li class="empty">ยังไม่มี log</li>
+        </ul>
+    </section>
+
+    <!-- Raw Response -->
+    <section class="card">
+        <h3>📦 Response จาก Server</h3>
+        <pre id="result">ยังไม่มีข้อมูล</pre>
+    </section>
+</div>
+
+
+<script src="/static/app.js"></script>
+</body>
+</html>

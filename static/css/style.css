@@ -1,0 +1,75 @@
+/* reset เบา ๆ */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #eef2f7, #f9fafb);
+    padding: 40px;
+    margin: 0;
+    color: #333;
+}
+
+/* จัดให้อยู่กลาง */
+.container {
+    max-width: 500px;
+    margin: auto;
+}
+
+/* หัวข้อ */
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #1f2937;
+}
+
+/* กล่องหลัก */
+.box {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* label */
+.box label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* input */
+.box input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    margin-bottom: 15px;
+}
+
+.box input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+}
+
+/* button */
+.box button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    background: #3b82f6;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.box button:hover {
+    background: #2563eb;
+}

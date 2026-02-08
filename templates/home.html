@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>EventSquare Check-in Monitor</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>📋 EventSquare</h1>
+    <h1>Check-in Monitor</h1>
+    <div class="box">
+        <label for="eventId">Event ID</label>
+        <input id="eventId" placeholder="เช่น 69835c1fe734b1978b91a71b" />
+        <button onclick="goToEvent()">Search</button>
+    </div>
+</div>
+
+<script>
+function goToEvent() {
+    const eventId = document.getElementById("eventId").value.trim();
+    if (!eventId) {
+        alert("กรุณากรอก Event ID");
+        return;
+    }
+    window.location.href = `/events/check-in/${eventId}`;
+}
+</script>
+
+</body>
+</html>
