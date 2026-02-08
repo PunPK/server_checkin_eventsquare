@@ -2,6 +2,8 @@ from flask import Flask, render_template, jsonify, request
 import requests
 import logging
 from asgiref.wsgi import WsgiToAsgi
+from datetime import datetime, timezone
+
 
 app = Flask(__name__)
 asgi_app = WsgiToAsgi(app)
@@ -56,9 +58,10 @@ def event_check_in(event_id):
     app.logger.info(f"[EVENT] response: {result}")
     app_event_logs(event_id,f"[EVENT] response: {result}")
 
+    checkin_time = datetime.now(timezone.utc).isoformat()
+
     summary = {
-        "checkin_time": result["checked_in_date"],
-        "user_id": result["user"],
+        "checkin_time": checkin_time,
         "ticket_type": result["ticket_types"][0]["name"],
         "ticket_id": result["ticket_types"][0]["ticket_id"],
     }
