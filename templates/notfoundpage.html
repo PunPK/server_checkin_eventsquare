@@ -2,18 +2,56 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>Event Monitor</title>
+    <title>Event Not Found</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/event.css') }}">
 </head>
 <body>
-<head>
-    <meta charset="UTF-8">
-    <title>Event Not Found</title>
-</head>
-<body>
-    <h1>ไม่พบ Event</h1>
-    <p>Event ID: <b>{{ event_id }}</b></p>
-    <a href="/">⬅ กลับหน้าแรก</a>
+
+<div class="container">
+
+    <header class="header">
+        <h1>🚫 EventSquare – ไม่พบ Event</h1>
+    </header>
+
+    <section class="card">
+        <div class="event-info">
+            <div>
+                <span class="label">สถานะ</span>
+                <span class="value" style="color:#dc2626;">ไม่พบ Event</span>
+            </div>
+
+            <div>
+                <span class="label">Event ID</span>
+                <span class="value mono">{{ event_id }}</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3>เกิดอะไรขึ้น?</h3>
+        <p style="margin:0; color:#475569;">
+            ไม่พบข้อมูล Event ที่คุณร้องขอ  
+            อาจเป็นเพราะ Event ถูกลบ, หมดอายุ หรือ ID ไม่ถูกต้อง
+        </p>
+    </section>
+
+
+    <section class="card" style="text-align:center;">
+        <a href="/" style="
+            display:inline-block;
+            padding:10px 18px;
+            background:#0ea5e9;
+            color:white;
+            border-radius:8px;
+            text-decoration:none;
+            font-weight:600;
+        ">
+            ⬅ กลับหน้าแรก
+        </a>
+    </section>
+
+</div>
+
 </body>
 </html>

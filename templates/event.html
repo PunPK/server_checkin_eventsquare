@@ -28,18 +28,22 @@
         </div>
     </section>
 
-    <!-- Log -->
+    <section class="card">
+    <h3>Response จาก Server</h3>
+        <ul class="summary">
+        <li><strong>เวลา Check-in:</strong> {{ summary.checkin_time }}</li>
+        <li><strong>User ID:</strong> {{ summary.user_id }}</li>
+        <li><strong>Ticket Type:</strong> {{ summary.ticket_type }}</li>
+        <li><strong>Ticket ID:</strong> {{ summary.ticket_id }}</li>
+    </ul>
+
+    </section>
+    
     <section class="card log-card">
-        <h3>🕒 Log เหตุการณ์</h3>
+        <h3>Log เหตุการณ์</h3>
         <ul id="logList" class="log-list">
             <li class="empty">ยังไม่มี log</li>
         </ul>
-    </section>
-
-    <!-- Raw Response -->
-    <section class="card">
-        <h3>📦 Response จาก Server</h3>
-        <pre id="result">ยังไม่มีข้อมูล</pre>
     </section>
 </div>
 
@@ -69,7 +73,7 @@ async function fetchLogs() {
     resultBox.textContent = JSON.stringify(logs[logs.length - 1], null, 2);
 }
 
-setInterval(fetchLogs, 1000);
+setInterval(fetchLogs, 10000);
 fetchLogs();
 </script>
 </body>

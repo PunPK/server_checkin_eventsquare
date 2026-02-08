@@ -40,7 +40,7 @@ def home():
 @app.route("/events/check-in/<event_id>")
 def event_check_in(event_id):
     app.logger.info(f"[EVENT] check-in request: {event_id}")
-    app_event_logs(f"[EVENT] check-in request: {event_id}")
+    app_event_logs(event_id, f"[EVENT] check-in: {event_id}")
 
     result = send_event_to_server(event_id)
 
@@ -50,31 +50,39 @@ def event_check_in(event_id):
         or result.get("detail") == "Event not found"
     ):
         app.logger.warning(f"[EVENT] not found: {event_id}")
-        app_event_logs(f"[EVENT] not found: {event_id}")
+        app_event_logs(event_id,f"[EVENT] not found")
         return render_template("notfoundpage.html", event_id=event_id), 404
 
     app.logger.info(f"[EVENT] response: {result}")
-    app_event_logs(f"[EVENT] response: {result}")
+    app_event_logs(event_id,f"[EVENT] response: {result}")
+
+    summary = {
+        "checkin_time": result["checked_in_date"],
+        "user_id": result["user"],
+        "ticket_type": result["ticket_types"][0]["name"],
+        "ticket_id": result["ticket_types"][0]["ticket_id"],
+    }
 
     return render_template(
         "event.html",
+        summary=summary,
+        raw=result,
         event_id=event_id,
-        event=result
     )
 
 
 @app.route("/v1/tickets/check-in/<ticket_id>", methods=["POST"])
 def ticket_check_in(ticket_id):
-    app_event_logs(f"[TICKET] check-in request: {ticket_id}")
+    app_event_logs(ticket_id,f"[TICKET] check-in request: {ticket_id}")
 
     result = send_ticket_to_server(ticket_id)
 
     if result.get("status") == "error":
         app.logger.info(f"[TICKET] failed: {result}")
-        app_event_logs(f"[TICKET] failed: {result}")
+        app_event_logs(ticket_id,f"[TICKET] failed: {result}")
     else:
         app.logger.info(f"[TICKET] success: {result}")
-        app_event_logs(f"[TICKET] success: {result}")
+        app_event_logs(ticket_id,f"[TICKET] success: {result}")
 
     return jsonify(result)
 
