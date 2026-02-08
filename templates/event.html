@@ -19,7 +19,7 @@
         <div class="event-info">
             <div>
                 <span class="label">Event name</span>
-                <span class="value">{{ event.event_name }}</span>
+                <span class="value">{{ event.name }}</span>
             </div>
             <div>
                 <span class="label">Event ID</span>
@@ -44,6 +44,33 @@
 </div>
 
 
-<script src="/static/app.js"></script>
+<script>
+const eventId = "{{ event_id }}";
+const logList = document.getElementById("logList");
+const resultBox = document.getElementById("result");
+
+async function fetchLogs() {
+    const res = await fetch(`/events/logs/${eventId}`);
+    const logs = await res.json();
+
+    logList.innerHTML = "";
+
+    if (logs.length === 0) {
+        logList.innerHTML = `<li class="empty">ยังไม่มี log</li>`;
+        return;
+    }
+
+    logs.forEach(log => {
+        const li = document.createElement("li");
+        li.textContent = log;
+        logList.appendChild(li);
+    });
+
+    resultBox.textContent = JSON.stringify(logs[logs.length - 1], null, 2);
+}
+
+setInterval(fetchLogs, 1000);
+fetchLogs();
+</script>
 </body>
 </html>
