@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  core-api:
+    build: .
+    container_name: vm-core-api
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+    restart: always
